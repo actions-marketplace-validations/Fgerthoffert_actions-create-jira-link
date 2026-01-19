@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@actions/core": "^1.11.1",
-    "@actions/github": "^6.0.0",
+    "@actions/github": "^7.0.0",
     "@octokit/graphql": "^8.1.1",
     "@octokit/webhooks-definitions": "^3.68.1",
     "jira-client": "^8.2.2"
