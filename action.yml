@@ -25,6 +25,12 @@ inputs:
       issues'
     default: 'Jira Tickets'
     required: false
+  github_issue_field:
+    description:
+      'Name of a GitHub issue field containing a comma separated list of Jira
+      issues'
+    default: 'Jira Tickets'
+    required: false
   github_label_prefix:
     description:
       'Label prefix to be used for finding issues. For example if the label is
@@ -88,5 +94,5 @@ inputs:
     required: false
 
 runs:
-  using: node20
+  using: node24
   main: dist/index.js

@@ -1,8 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable  @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-/* eslint-disable  @typescript-eslint/no-unsafe-call */
-
 import * as core from '@actions/core'
 
 export const getIssue = async ({
@@ -25,6 +20,21 @@ export const getIssue = async ({
           title
           number
           state
+          issueFieldValues(first: 10) {
+            nodes {
+              __typename
+              ... on IssueFieldTextValue {
+                id
+                value
+                field {
+                  __typename
+                  ... on IssueFieldText {
+                    name
+                  }
+                }
+              }					
+            }
+          }
           projectItems(first: 10) {
             totalCount
             nodes {

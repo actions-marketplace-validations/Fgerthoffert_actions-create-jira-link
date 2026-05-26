@@ -1,9 +1,3 @@
-/* eslint-disable  @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable  @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable   @typescript-eslint/no-unsafe-argument */
-/* eslint-disable   @typescript-eslint/no-unsafe-call */
-/* eslint-disable   @typescript-eslint/no-unsafe-return */
-
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 
@@ -82,6 +76,24 @@ export async function run(): Promise<void> {
       []
     )
     jiraKeys = [...jiraKeys, ...labelsJiraProjects]
+
+    // Get the list of Jira keys from the issue fields
+    const fieldsJiraKeys = githubIssue.issueFieldValues.nodes.reduce(
+      (acc: string[], field) => {
+        if (
+          field.__typename === 'IssueFieldTextValue' &&
+          field.field.__typename === 'IssueFieldText' &&
+          field.field.name === core.getInput('github_issue_field') &&
+          field.value !== null
+        ) {
+          core.info(`Found Jira key in issue field: ${field.field.name}`)
+          acc.push(...field.value.split(',').map(key => key.trim()))
+        }
+        return acc
+      },
+      []
+    )
+    jiraKeys = [...jiraKeys, ...fieldsJiraKeys]
 
     const uniqueJiraKeys = Array.from(new Set(jiraKeys)).filter(
       k => k.length >= 3
