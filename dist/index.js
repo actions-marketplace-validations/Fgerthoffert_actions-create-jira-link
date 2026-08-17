@@ -80785,7 +80785,9 @@ async function run() {
         }, []);
         jiraKeys = [...jiraKeys, ...labelsJiraKeys];
         const labelsJiraProjects = githubIssue.projectItems.nodes.reduce((acc, item) => {
-            if (item.fieldValueByName !== null) {
+            // fieldValueByName can be an empty object (no text property) when the
+            // project field exists but is not a text field
+            if (item.fieldValueByName?.text != null) {
                 core.info(`Found Jira keys in project: ${item.project.title} for field: ${core.getInput('github_project_field')}`);
                 acc = [
                     ...acc,

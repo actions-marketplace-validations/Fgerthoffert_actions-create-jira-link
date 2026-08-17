@@ -14,8 +14,8 @@ interface GitHubProjectItem {
     title: string
   }
   fieldValueByName: {
-    text: string
-  }
+    text?: string
+  } | null
 }
 
 interface GitHubIssue {

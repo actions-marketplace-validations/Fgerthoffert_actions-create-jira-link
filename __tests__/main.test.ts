@@ -248,7 +248,32 @@ describe('run', () => {
               id: 'item-1',
               type: 'ISSUE',
               project: { title: 'My Project' },
-              fieldValueByName: null as unknown as { text: string }
+              fieldValueByName: null
+            }
+          ]
+        }
+      })
+      mockInputs({ jira_issue_keys: 'PROJ-999' })
+      setupGitHubMocks(issue)
+
+      await run()
+
+      // Should still process the input keys without error
+      expect(mockJiraInstance.getIssue).toHaveBeenCalledWith('PROJ-999')
+    })
+
+    it('skips project items whose field value has no text (non-text field)', async () => {
+      const issue = createMockGitHubIssue({
+        projectItems: {
+          totalCount: 1,
+          nodes: [
+            {
+              id: 'item-1',
+              type: 'ISSUE',
+              project: { title: 'My Project' },
+              // A field that exists but is not a text field resolves to an
+              // object without a text property
+              fieldValueByName: {}
             }
           ]
         }
