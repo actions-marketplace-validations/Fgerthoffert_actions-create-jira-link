@@ -14,8 +14,8 @@ interface GitHubProjectItem {
     title: string
   }
   fieldValueByName: {
-    text: string
-  }
+    text?: string
+  } | null
 }
 
 interface GitHubIssue {
@@ -26,6 +26,17 @@ interface GitHubIssue {
   state: string
   updatedAt: string
   repository: GitHubRepository
+  issueFieldValues: {
+    nodes: {
+      __typename: string
+      id: string
+      value: string
+      field: {
+        __typename: string
+        name: string
+      }
+    }[]
+  }
   projectItems: {
     totalCount: number
     nodes: GitHubProjectItem[]
